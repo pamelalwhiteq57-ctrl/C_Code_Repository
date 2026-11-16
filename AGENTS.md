@@ -108,3 +108,37 @@ D:\Desktop\备份\对话存档_2026-11-16.zip
 **他经历过的教训（别重犯）**：
 - 2026-11-11：直接改 DSH 存储文件（`workspace.json`）**把工作区搞坏过一次** → **这类文件只读不写**
 - `property` 那次一次性抛太多概念，把他讲崩 → 必须"一次一个"
+
+---
+
+## 九、已知故障（2026-11-16 排过一次）
+
+### 工作区被 Windows 文件夹权限挡住
+
+**症状**：新会话一打开这个工作区，任何命令都失败，报
+
+```
+SetNamedSecurityInfoW failed (Win32 5): grantWrite(D:\Desktop\Code\C_Code_Repository)
+```
+
+（意思是：DSH 要替工作区加沙箱读写授权，被这个文件夹的权限挡了）
+
+**原因**：文件夹的**所有者虽然是当前用户**，但缺 `WRITE_OWNER`（所有者权限），
+DSH 的沙箱因此没法配置授权。
+
+**当时怎么修的**：只用 DSH 自带的诊断脚本，给**这个文件夹**补了一条
+「当前登录用户 = 完全控制」的允许项；**文件内容、所有者、其他权限都没动**。
+改完立刻重跑原命令 → 能列文件、gcc 正常 → 确认修好。
+
+**备份 + 撤销命令**（都在 `C:\Users\18510\.dsh\acl-reports\`）：
+
+```powershell
+pwsh -NoProfile -File 'C:\Users\18510\.dsh\acl-reports\acl-backup-95c82bdfe2f747338f24eb7fd740c291.json.ps1' -Path 'D:\Desktop\Code\C_Code_Repository' -AllowRoot 'D:\Desktop\Code\C_Code_Repository' -Restore 'C:\Users\18510\.dsh\acl-reports\acl-backup-95c82bdfe2f747338f24eb7fd740c291.json'
+```
+
+**教训**：这种"整个工作区打不开"的故障，**先查文件夹权限**，
+别急着重装 DSH、重建工作区、或去动存储文件。
+
+> 补充：如果只是某个路径读不到/write 不进去（不是整个工作区挂掉），
+> 也有专门的排查流程，别手改权限。
+> 全局那份 AGENTS.md 的规矩照旧：**`~/.dsh/storages/*` 只读不写，换工作区走界面。**
