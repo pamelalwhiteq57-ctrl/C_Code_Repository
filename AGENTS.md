@@ -32,15 +32,20 @@
 C_Code_Repository\
 ├── AGENTS.md
 ├── .gitignore
-└── C_Practice_Codes\
-    └── C_Learning_codes\
-        ├── L_01_Hello_C.c
-        └── output\                     ← 编译产物（已 gitignore）
-            └── L_01_Hello_C.exe
+└── C_Codes\
+    ├── C_Learning_codes\
+    │   └── L_01_Hello_C\               ← 一课一文件夹
+    │       ├── L_01_Hello_C.c
+    │       ├── Notes_01_include_header_main_braces.md
+    │       └── output\                 ← 编译产物（已 gitignore）
+    │           └── L_01_Hello_C.exe
+    └── C_Practice_codes\               ← 练习/题（P_ 开头）
 ```
 
+- **一课一文件夹**：源码、笔记、`output\` 都放在同一课的文件夹里（2026-11-16 起）
 - **学习课**：`L_编号_主题.c`（和 Python 仓库的 `L_` 规则一致）
-- **练习/题**：`P_编号_主题.c`
+- **练习/题**：`P_编号_主题.c`，放 `C_Practice_codes\`
+- **笔记**：`Notes_序号_英文主题.md`，和当天的源码放在同一个课文件夹里
 - **编译产物一律进 `output\`**，`.gitignore` 已含 `*.exe`、`*.o`
 
 ---
@@ -48,12 +53,12 @@ C_Code_Repository\
 ## 四、编译与运行（AI 用这套命令）
 
 ```powershell
-# 编译（用绝对路径，因为 PATH 可能没生效）
-C:\mingw64\bin\gcc.exe "C_Practice_Codes\C_Learning_codes\L_01_Hello_C.c" `
-    -o "C_Practice_Codes\C_Learning_codes\output\L_01_Hello_C.exe"
+# 编译（用绝对路径，因为 PATH 可能没生效；注意现在是一课一文件夹）
+C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_Hello_C.c" `
+    -o "C_Codes\C_Learning_codes\L_01_Hello_C\output\L_01_Hello_C.exe"
 
 # 运行
-& "C_Practice_Codes\C_Learning_codes\output\L_01_Hello_C.exe"
+& "C_Codes\C_Learning_codes\L_01_Hello_C\output\L_01_Hello_C.exe"
 ```
 
 **用户自己用的是插件**（点右上角 ▶ 运行），**注意**：源码没改时插件会提示
@@ -65,7 +70,12 @@ C:\mingw64\bin\gcc.exe "C_Practice_Codes\C_Learning_codes\L_01_Hello_C.c" `
 
 | 文件 | 内容 | 状态 |
 |---|---|---|
-| `L_01_Hello_C.c` | `scanf` 读入 + `printf` 输出 | ✅ 跑通 |
+| `L_01_Hello_C\L_01_Hello_C.c` | `scanf` 读入 + `printf` 输出 | ✅ 跑通 |
+| `Notes_01_include_header_main_braces.md` | 笔记 01：include / 头文件 / main / 花括号 | ✅ 定稿 |
+| `L_02_printf_Built_in_function.c` | `printf` 与 `%d %f %c %s` 占位符练习 | ✅ 跑通 |
+| `Notes_02_printf_and_format.md` | 笔记 02：printf 与格式化占位符（含占位符速查表） | ✅ 定稿 |
+| `L_03_keywords.c` | C17 全部 44 个关键字，按字母顺序打印 | ✅ 跑通 |
+| `Notes_03_keywords.md` | 笔记 03：关键字分组 + 与 Python 对照 | ✅ 定稿 |
 
 **下一步**：变量/运算符 → 分支循环 → 数组 → 函数 → 指针（重点）→ 结构体
 
@@ -92,7 +102,8 @@ C:\mingw64\bin\gcc.exe "C_Practice_Codes\C_Learning_codes\L_01_Hello_C.c" `
 2. **一次只加一个概念**，给 **10 行以内**的最小例子
 3. **每次给多个测试用例 + 期望值**（他最需要的是"多测几个"的习惯）
 4. **不要直接给答案，给提示 / 台阶**
-5. C 的报错要**翻译成人话**（gcc 的英文报错他还不熟）
+5. C 的报错要**用中文说清它的意思**（gcc 的英文报错他还不熟）
+6. **不要用"人话"这个词**，他不喜欢；解释报错就直接写「意思是……」
 
 ---
 
@@ -142,3 +153,34 @@ pwsh -NoProfile -File 'C:\Users\18510\.dsh\acl-reports\acl-backup-95c82bdfe2f747
 > 补充：如果只是某个路径读不到/write 不进去（不是整个工作区挂掉），
 > 也有专门的排查流程，别手改权限。
 > 全局那份 AGENTS.md 的规矩照旧：**`~/.dsh/storages/*` 只读不写，换工作区走界面。**
+
+---
+
+## 十、笔记规范（2026-11-16 定，按他的反馈调整）
+
+**一份笔记 = 一个主题。** 不搞章节目录，标题只写讲的是什么。
+
+### 内容
+
+- **只写当天真正讲过、他确认懂了的东西**
+- **尽量精简**：长话短说，不堆概念。但**不设行数硬指标**——那天内容多就长一点，少就短一点，以「看完能复述」为准
+- **重心放在 C 语言本身**：语法、类型、内存、为什么这样设计
+- **尽量配 Python 类比**，他说这是笔记里最有用的部分
+- **Python 对比可以再多一点，但要克制**：每块配一两处就够，整份控制在 3 到 5 处；不要每段都对比，写多了反而乱
+- 开头给一两句总结，或者「先记这几句」
+
+### 报错
+
+- **报错不是重点，不用专门列表去背。** 同一个错撞了两次以上、或者他自己问起来，再顺手记一句就行
+
+### 格式
+
+- 文件名 `Notes_序号_英文主题.md`，放当天源码的同一个课文件夹里
+- 英文标点，不用 `**` 粗体，不用 ①②③
+- 不写「人话」这个词，解释报错直接写「意思是……」
+- 不写他还没学的东西（指针、`gcc -E` 展开、`char *` 细节），学到时再说
+- 不自己造章节体系，**以他的划分和进度为准**
+
+### 判断标准
+
+他能不能一口气看完，并且**当天就能照着复述**。做不到就是写复杂了。
