@@ -119,7 +119,7 @@ C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_hello_C.c" `
 **完整对话存档**（2026-09 ~ 2026-11，含 Python 阶段）：
 
 ```
-D:\Desktop\备份\对话存档_2026-11-16.zip
+D:\Desktop\Code\备份\对话存档_2026-11-16.zip
 └── 对话全文.md    ← 需要时让他读这个，能知道"上一个 AI"怎么教的、踩过什么坑
 ```
 
