@@ -42,9 +42,21 @@ C_Code_Repository\
     │   │   ├── L_02_printf_Built_in_function.c
     │   │   ├── Notes_02_printf_and_format.md
     │   │   └── output\
-    │   └── L_03_Keywords\
-    │       ├── L_03_keywords.c
-    │       ├── Notes_03_keywords.md
+    │   ├── L_03_Keywords\
+    │   │   ├── L_03_keywords.c
+    │   │   ├── Notes_03_keywords.md
+    │   │   └── output\
+    │   ├── L_04_ASCII\
+    │   │   ├── L_04_ASCII.c
+    │   │   ├── Notes_04_ascii.md
+    │   │   └── output\
+    │   ├── L_05_null_terminator\
+    │   │   ├── L_05_null_terminator.c
+    │   │   ├── Notes_05_null_terminator.md
+    │   │   └── output\
+    │   └── L_06_ESC\                    ← 之后每课都按这个形状加
+    │       ├── L_06_ESC.c
+    │       ├── Notes_06_escape_characters.md
     │       └── output\
     └── C_Practice_codes\               ← 练习/题（P_ 开头）
 ```
@@ -53,6 +65,7 @@ C_Code_Repository\
 - **学习课**：`L_编号_主题.c`（和 Python 仓库的 `L_` 规则一致）
 - **练习/题**：`P_编号_主题.c`，放 `C_Practice_codes\`
 - **笔记**：`Notes_序号_英文主题.md`，和当天的源码放在同一个课文件夹里
+- **文件名/文件夹名只用字母、数字、下划线**：不要用 `'`、空格、`(` `)`。单引号会让 PowerShell 从引号处切断路径，插件直接报 `Set-Location : A positional parameter cannot be found...` 或 `CommandNotFoundException`（2026-11-18 的 `L_05_the'0'at_the_end` 撞过一次，已改名为 `L_05_null_terminator`）
 - **编译产物一律进 `output\`**，`.gitignore` 已含 `*.exe`、`*.o`
 
 ---
@@ -83,6 +96,12 @@ C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_hello_C.c" `
 | `Notes_02_printf_and_format.md` | 笔记 02：printf 与格式化占位符（含占位符速查表） | ✅ 定稿 |
 | `L_03_keywords.c` | C17 全部 44 个关键字，按字母顺序打印 | ✅ 跑通 |
 | `Notes_03_keywords.md` | 笔记 03：关键字分组 + 与 Python 对照 | ✅ 定稿 |
+| `L_04_ASCII.c` | 用 `%c` 打印 32~127 的 ASCII 表（`for` 循环留给后面学） | ✅ 跑通 |
+| `Notes_04_ascii.md` | 笔记 04：ASCII 编码 + `char` 就是小整数 | ✅ 定稿 |
+| `L_05_null_terminator\L_05_null_terminator.c` | `"abc"` 带 `\0` 与 `{'a','b','c'}` 不带 `\0` 的对比（`printf("%s")` 读到哪停） | ✅ 跑通 |
+| `Notes_05_null_terminator.md` | 笔记 05：`\0` 是停止标记 / 双引号自带、大括号要自己补 | ✅ 定稿 |
+| `L_06_ESC\L_06_ESC.c` | 转义字符：`\?` `\'` `\"` `\\` `\a` `\b` `\r` `\t` 各自的效果（`\f` 先不讲） | ✅ 跑通 |
+| `Notes_06_escape_characters.md` | 笔记 06：讲义原文的转义字符表 + 我代码里每行的效果 | ✅ 定稿 |
 
 **下一步**：变量/运算符 → 分支循环 → 数组 → 函数 → 指针（重点）→ 结构体
 
@@ -111,6 +130,7 @@ C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_hello_C.c" `
 4. **不要直接给答案，给提示 / 台阶**
 5. C 的报错要**用中文说清它的意思**（gcc 的英文报错他还不熟）
 6. **不要用"人话"这个词**，他不喜欢；解释报错就直接写「意思是……」
+7. **不许超纲**（2026-11-18 他明确提的）：只用他学过的词解释。碰到没学过的概念（栈、指针、内存地址、字节编码、未定义行为……）就先写一句「这个先跳过」，最多带一嘴，绝不展开；他追问了才讲
 
 ---
 
@@ -176,6 +196,12 @@ pwsh -NoProfile -File 'C:\Users\18510\.dsh\acl-reports\acl-backup-95c82bdfe2f747
 - **Python 对比可以再多一点，但要克制**：每块配一两处就够，整份控制在 3 到 5 处；不要每段都对比，写多了反而乱
 - 开头给一两句总结，或者「先记这几句」
 
+### 视角
+
+- **笔记用第一人称写**，就当是他自己记的
+- 不写「你的代码」「你写的这个程序」，写「我写的这个程序」
+- 不用旁观者口吻（「他」「用户」也不行）：全篇只有「我」和 C 语言本身
+
 ### 报错
 
 - **报错不是重点，不用专门列表去背。** 同一个错撞了两次以上、或者他自己问起来，再顺手记一句就行
@@ -184,8 +210,10 @@ pwsh -NoProfile -File 'C:\Users\18510\.dsh\acl-reports\acl-backup-95c82bdfe2f747
 
 - 文件名 `Notes_序号_英文主题.md`，放当天源码的同一个课文件夹里
 - 英文标点，不用 `**` 粗体，不用 ①②③
+- **不用 Markdown 表格，不用竖线 `|` 分割**（2026-11-18 他明确说的）：要对比的东西写成「名字: 说明, 说明」，一行一条，用逗号断句。笔记要能照着抄到纸质本子上，竖线抄起来太累
 - 不写「人话」这个词，解释报错直接写「意思是……」
 - 不写他还没学的东西（指针、`gcc -E` 展开、`char *` 细节），学到时再说
+- **例子只用他当天亲手写过的写法**。不要为了「讲全」另造带未学语法的例子（比如他还没学数组时，笔记里出现 `char c[5]`、`arr2[3]` 这种），否则等于逼他看没学过的东西（2026-11-18 笔记 05 撞过一次，已删）
 - 不自己造章节体系，**以他的划分和进度为准**
 
 ### 判断标准
