@@ -33,12 +33,19 @@ C_Code_Repository\
 ├── AGENTS.md
 ├── .gitignore
 └── C_Codes\
-    ├── C_Learning_codes\
-    │   └── L_01_Hello_C\               ← 一课一文件夹
-    │       ├── L_01_Hello_C.c
-    │       ├── Notes_01_include_header_main_braces.md
-    │       └── output\                 ← 编译产物（已 gitignore）
-    │           └── L_01_Hello_C.exe
+    ├── C_Learning_codes\               ← 学习课，一课一文件夹
+    │   ├── L_01_Hello_C\
+    │   │   ├── L_01_hello_C.c
+    │   │   ├── Notes_01_include_header_main_braces.md
+    │   │   └── output\                 ← 编译产物（已 gitignore）
+    │   ├── L_02_Printf_Scanf\
+    │   │   ├── L_02_printf_Built_in_function.c
+    │   │   ├── Notes_02_printf_and_format.md
+    │   │   └── output\
+    │   └── L_03_Keywords\
+    │       ├── L_03_keywords.c
+    │       ├── Notes_03_keywords.md
+    │       └── output\
     └── C_Practice_codes\               ← 练习/题（P_ 开头）
 ```
 
@@ -54,11 +61,11 @@ C_Code_Repository\
 
 ```powershell
 # 编译（用绝对路径，因为 PATH 可能没生效；注意现在是一课一文件夹）
-C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_Hello_C.c" `
-    -o "C_Codes\C_Learning_codes\L_01_Hello_C\output\L_01_Hello_C.exe"
+C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_hello_C.c" `
+    -o "C_Codes\C_Learning_codes\L_01_Hello_C\output\L_01_hello_C.exe"
 
 # 运行
-& "C_Codes\C_Learning_codes\L_01_Hello_C\output\L_01_Hello_C.exe"
+& "C_Codes\C_Learning_codes\L_01_Hello_C\output\L_01_hello_C.exe"
 ```
 
 **用户自己用的是插件**（点右上角 ▶ 运行），**注意**：源码没改时插件会提示
@@ -70,7 +77,7 @@ C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_Hello_C.c" `
 
 | 文件 | 内容 | 状态 |
 |---|---|---|
-| `L_01_Hello_C\L_01_Hello_C.c` | `scanf` 读入 + `printf` 输出 | ✅ 跑通 |
+| `L_01_Hello_C\L_01_hello_C.c` | `scanf` 读入 + `printf` 输出 | ✅ 跑通 |
 | `Notes_01_include_header_main_braces.md` | 笔记 01：include / 头文件 / main / 花括号 | ✅ 定稿 |
 | `L_02_printf_Built_in_function.c` | `printf` 与 `%d %f %c %s` 占位符练习 | ✅ 跑通 |
 | `Notes_02_printf_and_format.md` | 笔记 02：printf 与格式化占位符（含占位符速查表） | ✅ 定稿 |
