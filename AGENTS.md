@@ -54,9 +54,29 @@ C_Code_Repository\
     │   │   ├── L_05_null_terminator.c
     │   │   ├── Notes_05_null_terminator.md
     │   │   └── output\
-    │   └── L_06_ESC\                    ← 之后每课都按这个形状加
-    │       ├── L_06_ESC.c
-    │       ├── Notes_06_escape_characters.md
+    │   ├── L_06_ESC\
+    │   │   ├── L_06_ESC.c
+    │   │   ├── Notes_06_escape_characters.md
+    │   │   └── output\
+    │   ├── L_07_Statement\
+    │   │   ├── L_07_statement.c
+    │   │   ├── Notes_07_statements.md
+    │   │   └── output\
+    │   ├── L_08_Data_Type\
+    │   │   ├── L_08_data_type.c
+    │   │   ├── Notes_08_data_types.md
+    │   │   └── output\
+    │   ├── L_09_About_sizeof\
+    │   │   ├── L_09_about_sizeof.c
+    │   │   ├── Notes_09_sizeof.md
+    │   │   └── output\
+    │   ├── L_10_Signed_Unsigned\
+    │   │   ├── L_10_signed_unsigned.c
+    │   │   ├── Notes_10_signed_unsigned.md
+    │   │   └── output\
+    │   └── L_11_Scanf\                  ← 之后每课都按这个形状加
+    │       ├── L_11_scanf.c
+    │       ├── Notes_11_scanf.md
     │       └── output\
     └── C_Practice_codes\               ← 练习/题（P_ 开头）
 ```
@@ -102,6 +122,16 @@ C:\mingw64\bin\gcc.exe "C_Codes\C_Learning_codes\L_01_Hello_C\L_01_hello_C.c" `
 | `Notes_05_null_terminator.md` | 笔记 05：`\0` 是停止标记 / 双引号自带、大括号要自己补 | ✅ 定稿 |
 | `L_06_ESC\L_06_ESC.c` | 转义字符：`\?` `\'` `\"` `\\` `\a` `\b` `\r` `\t` 各自的效果（`\f` 先不讲） | ✅ 跑通 |
 | `Notes_06_escape_characters.md` | 笔记 06：讲义原文的转义字符表 + 我代码里每行的效果 | ✅ 定稿 |
+| `L_07_Statement\L_07_statement.c` | 语句分类：空语句 `;` 与表达式语句 `b = a + 5;` | ✅ 跑通 |
+| `Notes_07_statements.md` | 笔记 07：五类语句 + 九种控制语句的名字 | ✅ 定稿 |
+| `L_08_Data_Type\L_08_data_type.c` | 数据类型：char / short / int / long / long long / float / double / long double / _Bool 各定义一个并打印 | ✅ 跑通 |
+| `Notes_08_data_types.md` | 笔记 08：内置类型四组 + 自定义类型四个名字 | ✅ 定稿 |
+| `L_09_About_sizeof\L_09_about_sizeof.c` | `sizeof` 九种类型 + `sizeof(表达式)` 不求值 | ✅ 跑通 |
+| `Notes_09_sizeof.md` | 笔记 09：位与字节 / sizeof 两种写法 / 我这台机器的长度表 / 表达式不参与计算 | ✅ 定稿 |
+| `L_10_Signed_Unsigned\L_10_signed_unsigned.c` | signed/unsigned：`%d` 与 `%u` 看同一份数据、无符号加到头变 0、short 装回去才绕、char 的符号性 | ✅ 跑通 |
+| `Notes_10_signed_unsigned.md` | 笔记 10：signed/unsigned 修饰范围、int 默认带符号、char 符号性不固定、char 属整型家族 | ✅ 定稿 |
+| `L_11_Scanf\L_11_scanf.c` | scanf 三道题：两个整数相加 / `%d%c` 与 `%d %c` 的差别 / `%d %lf %c` 一次读三种类型（前面的留在注释里） | ✅ 跑通 |
+| `Notes_11_scanf.md` | 笔记 11：为什么写 `&`、按格式读不按行读、格式串的空格、`%c` 的脾气、`%lf`、返回值 | ✅ 定稿 |
 
 **下一步**：变量/运算符 → 分支循环 → 数组 → 函数 → 指针（重点）→ 结构体
 
@@ -181,6 +211,22 @@ pwsh -NoProfile -File 'C:\Users\18510\.dsh\acl-reports\acl-backup-95c82bdfe2f747
 > 也有专门的排查流程，别手改权限。
 > 全局那份 AGENTS.md 的规矩照旧：**`~/.dsh/storages/*` 只读不写，换工作区走界面。**
 
+### 子目录写不进去（2026-11-18 起，2026-11-19 已解决）
+
+**症状**：用 PowerShell 改文件时，仓库根目录（如 `AGENTS.md`）可以写，但只要进了
+`C_Codes\` 以下就报 `UnauthorizedAccessException`，gcc 往 `output\` 出 exe 也报
+`ld.exe: cannot open output file ... Permission denied`。DSH 自带的文件工具不受影响。
+
+**原因**：DSH 的沙箱只对工作区根目录这一层放行，子目录不在放行范围里。
+不是文件夹权限本身坏了，所以跑诊断脚本补 ACL 也没用（只补用户 FullControl 那次验证过，仍然不行）。
+
+**当时怎么解决的**：2026-11-19 他把本会话的权限调成 `danger-full-access`、
+关掉批准弹窗，之后子目录直接可写（实测 `OPEN-WRITE OK`）。
+
+**以后怎么办**：如果又出现子目录写不进去，先看会话权限是不是回到了 `workspace-write`；
+要改就让他自己改权限，**别去动文件夹 ACL**。
+
+
 ---
 
 ## 十、笔记规范（2026-11-16 定，按他的反馈调整）
@@ -194,13 +240,18 @@ pwsh -NoProfile -File 'C:\Users\18510\.dsh\acl-reports\acl-backup-95c82bdfe2f747
 - **重心放在 C 语言本身**：语法、类型、内存、为什么这样设计
 - **尽量配 Python 类比**，他说这是笔记里最有用的部分
 - **Python 对比可以再多一点，但要克制**：每块配一两处就够，整份控制在 3 到 5 处；不要每段都对比，写多了反而乱
-- 开头给一两句总结，或者「先记这几句」
+- 开头用「重点」这种标题直接列出结论, 要收尾就用「结论」; 不写「先记这几句」「今天记住这一句」这种像在对读者下指令的标题（2026-11-19 他说的）
 
 ### 视角
 
 - **笔记用第一人称写**，就当是他自己记的
 - 不写「你的代码」「你写的这个程序」，写「我写的这个程序」
 - 不用旁观者口吻（「他」「用户」也不行）：全篇只有「我」和 C 语言本身
+- **读起来要像我随手记的笔记，不要 AI 腔、教学腔**（2026-11-19 他说的「像人写的行吗」）：
+  - 不写「三条规则:」「两个要点:」「两个小提示:」「这件事值得记一句」「还有一个心态上的提醒」这类总结框，直接把事写成句子
+  - 一句话一行，句与句之间**不空行**；只在 `##` 小标题之间空一行
+  - 不用三段排比、不用「不仅……而且」，不解释自己为什么这么写
+  - 标题只写内容是什么（`## include`、`## 花括号`），不写成句子、不对读者说话
 
 ### 报错
 
